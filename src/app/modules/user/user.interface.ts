@@ -39,7 +39,11 @@ export interface BeneficiaryDetails {
 
 export interface TUser {
   _id: Types.ObjectId;
+  name?: string;
   email: string;
+   passportNo: string;
+    passportExpiry:  Date;
+  vacancyId: Types.ObjectId;
   password: string;
   role: "user" | "admin" | "company" | "creator" | "director";
   status: "block" | "active";
