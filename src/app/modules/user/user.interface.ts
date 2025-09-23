@@ -37,79 +37,163 @@ export interface BeneficiaryDetails {
   address?: Address;
 }
 
+
+export interface EmergencyContact {
+  emergencyContactName: string;
+  relationship: string;
+  address: string;
+  cityOrTown: string;
+  country: string;
+  postCode: string;
+  note: string;
+  phone: string;
+  mobile: string;
+  email: string;
+  emailRota: boolean;
+  sendInvoice: boolean;
+}
+
+export interface CriticalInfo {
+  date: string;
+  type: string | null;
+  details: string;
+}
+
+export interface PrimaryBranch {
+  fromDate: string;
+  branch: string;
+  area: string;
+  note: string;
+}
+
+export interface NoteItem {
+  date: string;
+  type: string;
+  note: string;
+}
+
 export interface TUser {
   _id: Types.ObjectId;
-  name?: string;
   email: string;
-   passportNo: string;
-    passportExpiry:  Date;
-  vacancyId: Types.ObjectId;
   password: string;
-  role: "user" | "admin" | "company" | "creator" | "director";
-  status: "block" | "active";
-  company?: Types.ObjectId;
-  colleagues?: Types.ObjectId[];
-  isDeleted: boolean;
-  authorized: boolean;
-  address?: string;
-  image?: string;
-  phone?: string;
+  role?: "user" | "admin" | "serviceUser" | "staff";
+  status?: "block" | "active";
+  isDeleted?: boolean;
+  authorized?: boolean;
+
+  // Authentication & account
   googleUid?: string;
   otp?: string;
+  otpExpires?: Date | null;
   refreshToken?: string;
-  otpExpires: Date | null;
-  accountNo?: string;
-  sortCode?: string;
-  beneficiary?: string;
 
-  // Fields from Employee model
-  profilePictureUrl?: string;
+  // Personal details
+  serviceUserType: string;
   title?: string;
   firstName?: string;
-  initial?: string;
+  middleInitial?: string;
   lastName?: string;
-  dateOfBirth?: Date;
-  nationalInsuranceNumber?: string;
-  nhsNumber?: string;
-  applicationDate?: Date;
-  availableFromDate?: Date;
-  employmentType?: string;
-  position?: string;
-  source?: string;
-  branch?: string;
-  homePhone?: string;
-  mobilePhone?: string;
-  otherPhone?: string;
-  cityOrTown?: string;
-  stateOrProvince?: string;
-  postCode?: string;
-  country?: string;
+  preferredName?: string;
+  dateOfBirth?: Date | string;
   gender?: string;
   maritalStatus?: string;
   ethnicOrigin?: string;
+  religion?: string;
+  nationality?: string;
+  preferredLanguage?: string;
+
+  // Documents & identifiers
+  passportNo?: string;
+  passportExpiry?: Date;
+  nationalInsuranceNumber?: string;
+  nhsNumber?: string;
+
+  // Address & location
+  address?: string;
+  city?: string;
+  postCode?: string;
+  country?: string;
+  stateOrProvince?: string;
+  cityOrTown?: string;
+
+  // Contact information
+  phone?: string;
+  fax?: string;
+  homePhone:string;
+  mobile?: string;
+  other?: string;
+  phoneNumber?: string;
+  emergencyContact?: string;
+  emergencyPhone?: string;
+  emailAlt?: string;
+  website?: string;
+
+  // Employment / service details
+  startDate?: Date | string;
+  lastDutyDate?: Date | string;
+  servicePriority?: string;
+  serviceLocationExId?: string;
+  statusLabel?: string;
+
+  // Payroll & finance
+  accountNo?: string;
+  sortCode?: string;
+  beneficiary?: string;
+  payroll?: Payroll;
+  detailedBeneficiary?: BeneficiaryDetails;
+
+  // Company & relations
+  company?: Types.ObjectId;
+  colleagues?: Types.ObjectId[];
+  departmentId?: Types.ObjectId;
+  trainingId?: Types.ObjectId[];
+  designationId?: Types.ObjectId;
+
+  // Employment application data
+  vacancyId?: Types.ObjectId;
+  recruitmentId?: Types.ObjectId;
+  applicantId?: Types.ObjectId;
+  applicationDate?: Date;
+  availableFromDate?: Date;
+  availableFrom?: Date;
+  employmentType?: string;
+  recruitmentEmploymentType?: "full-time" | "part-time" | "contractor" | "temporary" | "intern";
+  position?: string;
+  branch?: string;
+  area?: string;
+  isFullTime?: boolean;
+  carTravelAllowance?: boolean;
+
+  // Legal & compliance
+  rightToWork?: RightToWork;
+  wtrDocumentUrl?: string;
+
+  // Extra fields from schema
+  timesheetSignature?: boolean;
+  timesheetSignatureNote?: string;
+
+  // Equality & adjustments
+  disability?: string;
+  ethnicity?: string;
   hasDisability?: boolean;
   disabilityDetails?: string;
   needsReasonableAdjustment?: boolean;
   reasonableAdjustmentDetails?: string;
-  notes?: string;
-  recruitmentId?: Types.ObjectId;
-  applicantId?: Types.ObjectId;
-  availableFrom?: Date;
-  startDate?: Date;
-  wtrDocumentUrl?: string;
-  area?: string;
-  isFullTime?: boolean;
-  carTravelAllowance?: boolean;
-  recruitmentEmploymentType?: "full-time" | "part-time" | "contractor" | "temporary" | "intern";
-  rightToWork?: RightToWork;
-  payroll?: Payroll;
   equalityInformation?: EqualityInformation;
-  detailedBeneficiary?: BeneficiaryDetails;
-  departmentId:Types.ObjectId;
-  trainingId: Types.ObjectId[];
-  designationId: Types.ObjectId
-}
 
+  // Media
+  image?: string;
+  profilePictureUrl?: string;
+
+  // Miscellaneous
+  name?: string;
+
+  // Complex nested arrays
+  emergencyContacts?: EmergencyContact[];
+  criticalInfo?: CriticalInfo[];
+  primaryBranch?: PrimaryBranch[];
+  notes?: NoteItem[];
+}
 export interface UserModel extends Model<TUser> {
   //instance methods for checking if the user exist
   isUserExists(email: string): Promise<TUser>;

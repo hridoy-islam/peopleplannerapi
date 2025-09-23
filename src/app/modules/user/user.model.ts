@@ -60,214 +60,166 @@ const BeneficiarySchema = new Schema({
 });
 
 
+// Emergency Contact Schema
+const EmergencyContactSchema = new Schema(
+  {
+    emergencyContactName: { type: String },
+    relationship: { type: String },
+    address: { type: String },
+    cityOrTown: { type: String },
+    country: { type: String },
+    postCode: { type: String },
+    note: { type: String },
+    phone: { type: String },
+    mobile: { type: String },
+    email: { type: String },
+    emailRota: { type: Boolean, default: false },
+    sendInvoice: { type: Boolean, default: false },
+  }
+);
+
+// Critical Info Schema
+const CriticalInfoSchema = new Schema(
+  {
+    date: { type: Date },
+    type: { type: String }, // can be dropdown later
+    details: { type: String },
+  }
+);
+
+// Primary Branch Schema
+const PrimaryBranchSchema = new Schema(
+  {
+    fromDate: { type: Date },
+    branch: { type: String },
+    area: { type: String },
+    note: { type: String },
+  }
+);
+
+// Notes Schema
+const NotesSchema = new Schema(
+  {
+    date: { type: Date },
+    type: { type: String },
+    note: { type: String },
+  }
+  
+);
+
 const userSchema = new Schema<TUser, UserModel>(
   {
+    // Basic user info
     name: { type: String },
-
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    password: {
-      type: String,
-      required: true,
-      select: 0,
-    },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true, select: 0 },
     role: {
       type: String,
-      enum: ["user", "admin", "company", "employee"],
+      enum: ["user", "admin", "serviceUser", "staff"],
       default: "user",
     },
-    image: {
-      type: String,
-    },
-    status: {
-      type: String,
-      enum: UserStatus,
-      default: "active",
-    },
-    company: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
-    colleagues: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
-    isDeleted: {
-      type: Boolean,
-      default: false,
-    },
-    authorized: {
-      type: Boolean,
-      default: false,
-    },
-    address: {
-      type: String,
-    },
-    phone: {
-      type: String,
-    },
-    googleUid: {
-      type: String,
-    },
-    otp: {
-      type: String,
-    },
-    refreshToken: {
-      type: String,
-      select: false,
-    },
+    image: { type: String },
+    status: { type: String, enum: UserStatus, default: "active" },
+    isDeleted: { type: Boolean, default: false },
+    authorized: { type: Boolean, default: false },
+
+    // Relations
+    company: { type: Schema.Types.ObjectId, ref: "User" },
+    colleagues: [{ type: Schema.Types.ObjectId, ref: "User" }],
+
+    // Auth
+    googleUid: { type: String },
+    otp: { type: String },
+    otpExpires: { type: Date },
+    refreshToken: { type: String, select: false },
+
+    // Finance
     accountNo: { type: String },
     sortCode: { type: String },
-    otpExpires: { type: Date, required: false },
-
     beneficiary: { type: BeneficiarySchema },
+    detailedBeneficiary: { type: BeneficiarySchema },
 
-    title: {
-      type: String,
-    },
-    firstName: {
-      type: String,
-    },
-    initial: {
-      type: String,
-    },
-    lastName: {
-      type: String,
-    },
-    dateOfBirth: {
-      type: Date,
-    },
-    nationalInsuranceNumber: {
-      type: String,
-    },
-    nhsNumber: {
-      type: String,
-    },
-    applicationDate: {
-      type: Date,
-    },
-    availableFromDate: {
-      type: Date,
-    },
-    employmentType: {
-      type: String,
-    },
-    position: {
-      type: String,
-    },
-    source: {
-      type: String,
-    },
-    branch: {
-      type: String,
-    },
-    homePhone: {
-      type: String,
-    },
-    mobilePhone: {
-      type: String,
-    },
-    otherPhone: {
-      type: String,
-    },
-    cityOrTown: {
-      type: String,
-    },
-    stateOrProvince: {
-      type: String,
-    },
-    postCode: {
-      type: String,
-    },
-    country: {
-      type: String,
-    },
-    gender: {
-      type: String,
-    },
-    maritalStatus: {
-      type: String,
-    },
-    ethnicOrigin: {
-      type: String,
-    },
-    hasDisability: {
-      type: Boolean,
-    },
-    disabilityDetails: {
-      type: String,
-    },
-    needsReasonableAdjustment: {
-      type: Boolean,
-    },
-    reasonableAdjustmentDetails: {
-      type: String,
-    },
-    notes: {
-      type: String,
-    },
-    recruitmentId: {
-      type: Schema.Types.ObjectId,
-      ref: "Recruitment",
-    },
-    applicantId: {
-      type: Schema.Types.ObjectId,
-      ref: "Applicant",
-    },
-    availableFrom: {
-      type: Date,
-    },
-    startDate: {
-      type: Date,
-    },
-    wtrDocumentUrl: {
-      type: String,
-    },
-    area: {
-      type: String,
-    },
-    isFullTime: {
-      type: Boolean,
-    },
-    carTravelAllowance: {
-      type: Boolean,
-    },
+    // Service-user specific
+    title: { type: String },
+    firstName: { type: String },
+    middleInitial: { type: String },
+    lastName: { type: String },
+    preferredName: { type: String },
+    dateOfBirth: { type: Date },
+    gender: { type: String },
+    maritalStatus: { type: String },
+    ethnicOrigin: { type: String },
+    religion: { type: String },
+    serviceUserType: { type: String },
+
+    // Address & Location
+    address: { type: String },
+    city: { type: String },
+    country: { type: String },
+    postCode: { type: String },
+    stateOrProvince: { type: String },
+    cityOrTown: { type: String },
+
+    // Contact Information
+    phone: { type: String },
+    fax: { type: String },
+    mobile: { type: String },
+    other: { type: String },
+    homePhone: { type: String },
+    website: { type: String },
+
+    // Employment / Service Details
+    startDate: { type: Date },
+    lastDutyDate: { type: Date },
+    statusLabel: { type: String }, // dropdown
+    servicePriority: { type: String }, // dropdown
+    serviceLocationExId: { type: String },
+    timesheetSignature: { type: Boolean },
+    timesheetSignatureNote: { type: String },
+
+    // Employee model fields
+    nationalInsuranceNumber: { type: String },
+    nhsNumber: { type: String },
+    applicationDate: { type: Date },
+    availableFromDate: { type: Date },
+    availableFrom: { type: Date },
+    employmentType: { type: String },
+    position: { type: String },
+    source: { type: String },
+    branch: { type: String },
+    area: { type: String },
+    startDateEmployee: { type: Date },
+    wtrDocumentUrl: { type: String },
+    isFullTime: { type: Boolean },
+    carTravelAllowance: { type: Boolean },
     recruitmentEmploymentType: {
       type: String,
       enum: ["full-time", "part-time", "contractor", "temporary", "intern"],
     },
-    rightToWork: {
-      type: RightToWorkSchema,
-    },
-    payroll: {
-      type: PayrollSchema,
-    },
-    equalityInformation: {
-      type: EqualityInformationSchema,
-    },
-    detailedBeneficiary: {
-      type: BeneficiarySchema,
-    },
+    recruitmentId: { type: Schema.Types.ObjectId, ref: "Recruitment" },
+    applicantId: { type: Schema.Types.ObjectId, ref: "Applicant" },
 
-    departmentId: {
-      type: Schema.Types.ObjectId,
-      ref: "Department",
-    },
-    trainingId: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Training",
-      },
-    ],
-    designationId: {
-      type: Schema.Types.ObjectId,
-      ref: "Designation",
-    },
+    // Equality & adjustments
+    hasDisability: { type: Boolean },
+    disabilityDetails: { type: String },
+    needsReasonableAdjustment: { type: Boolean },
+    reasonableAdjustmentDetails: { type: String },
+    equalityInformation: { type: EqualityInformationSchema },
+
+    // Payroll & compliance
+    rightToWork: { type: RightToWorkSchema },
+    payroll: { type: PayrollSchema },
+
+    // Embedded Arrays
+    emergencyContacts: [EmergencyContactSchema],
+    criticalInfo: [CriticalInfoSchema],
+    primaryBranch: [PrimaryBranchSchema],
+    notes: [NotesSchema],
+
+    // Misc
+    departmentId: { type: Schema.Types.ObjectId, ref: "Department" },
+    trainingId: [{ type: Schema.Types.ObjectId, ref: "Training" }],
+    designationId: { type: Schema.Types.ObjectId, ref: "Designation" },
   },
   {
     timestamps: true,

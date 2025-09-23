@@ -2,7 +2,6 @@ import { Server } from "http";
 import mongoose from "mongoose";
 import app from "./app";
 import config from "./app/config";
-import { initializeSocket } from "./socket";
 
 let server: Server;
 
@@ -15,7 +14,6 @@ async function main() {
     });
 
 
-    initializeSocket(server);
         
     // const io = require("socket.io")(server, {
     //   pingTimeout: 60000,
