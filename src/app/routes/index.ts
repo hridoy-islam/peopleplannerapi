@@ -13,6 +13,10 @@ import { DesignationRoutes } from "../modules/hr/designation/designation.router"
 import { ShiftRoutes } from "../modules/hr/shift/shift.router";
 import { EmployeeRateRoutes } from "../modules/hr/employeeRate/employeeRate.router";
 import { FunderRoutes } from "../modules/hr/funder/funder.router";
+import { ScheduleRoutes } from "../modules/schedule/schedule.router";
+import { LeaveRoutes } from "../modules/hr/leave/leave.router";
+import { BankHolidayRoutes } from "../modules/hr/bank-holiday/bank-holiday.router";
+import { PendingHiringRoutes } from "../modules/hr/pending-hiring/pendingHiring.router";
 
 const router = Router();
 
@@ -45,10 +49,14 @@ const moduleRoutes = [
     path: "/hr/vacancy",
     route: VacancyRoutes,
   },
- 
+
   {
     path: "/hr/applicant",
     route: ApplicantRoutes,
+  },
+  {
+    path: "/hr/pending-hiring",
+    route: PendingHiringRoutes,
   },
   {
     path: "/hr/recruitment",
@@ -67,12 +75,24 @@ const moduleRoutes = [
     route: ShiftRoutes,
   },
   {
+    path: "/hr/leave",
+    route: LeaveRoutes,
+  },
+  {
+    path: "/hr/bank-holiday",
+    route: BankHolidayRoutes,
+  },
+  {
     path: "/hr/employeeRate",
     route: EmployeeRateRoutes,
   },
   {
-    path: "/hr/service-funder",
+    path: "/service-funder",
     route: FunderRoutes,
+  },
+  {
+    path: "/schedules",
+    route: ScheduleRoutes,
   },
 ];
 

@@ -1,32 +1,36 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import express from "express";
-import { LeaveControllers } from "./leave.controller";
-
+import { BankHolidayControllers } from "./bank-holiday.controller";
 
 
 const router = express.Router();
 router.get(
   "/",
 //   auth("admin", "company", "creator", "user", "director"),
-  LeaveControllers.getAllLeave
+  BankHolidayControllers.getAllBankHoliday
 );
 router.get(
   "/:id",
 //   auth("admin", "user", "director", "company", "creator"),
-LeaveControllers.getSingleLeave
+BankHolidayControllers.getSingleBankHoliday
 );
 router.post(
   "/",
 //   auth("admin", "user", "director", "company", "creator"),
-LeaveControllers.createLeave
+BankHolidayControllers.createBankHoliday
 );
 
 router.patch(
   "/:id",
 //   auth("admin", "user", "creator", "company", "director"),
-LeaveControllers.updateLeave
+BankHolidayControllers.updateBankHoliday
+);
+router.delete(
+  "/:id",
+//   auth("admin", "user", "creator", "company", "director"),
+BankHolidayControllers.deleteBankHoliday
 );
 
 
 
-export const LeaveRoutes = router;
+export const BankHolidayRoutes = router;

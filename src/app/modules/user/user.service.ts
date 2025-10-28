@@ -14,7 +14,7 @@ const getAllUserFromDB = async (query: Record<string, unknown>) => {
     query
   )
     .search(UserSearchableFields)
-    .filter()
+    .filter(query)
     .sort()
     .paginate()
     .fields();

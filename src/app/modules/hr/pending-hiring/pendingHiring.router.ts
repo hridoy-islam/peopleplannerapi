@@ -1,32 +1,33 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import express from "express";
-import { LeaveControllers } from "./leave.controller";
 
+
+import { PendingHiringControllers } from "./pendingHiring.controller";
 
 
 const router = express.Router();
 router.get(
   "/",
 //   auth("admin", "company", "creator", "user", "director"),
-  LeaveControllers.getAllLeave
+PendingHiringControllers.getAllPendingHiring
 );
 router.get(
   "/:id",
 //   auth("admin", "user", "director", "company", "creator"),
-LeaveControllers.getSingleLeave
+PendingHiringControllers.getSinglePendingHiring
 );
 router.post(
   "/",
 //   auth("admin", "user", "director", "company", "creator"),
-LeaveControllers.createLeave
+PendingHiringControllers.createPendingHiring
 );
 
 router.patch(
   "/:id",
 //   auth("admin", "user", "creator", "company", "director"),
-LeaveControllers.updateLeave
+PendingHiringControllers.updatePendingHiring
 );
 
 
 
-export const LeaveRoutes = router;
+export const PendingHiringRoutes = router;

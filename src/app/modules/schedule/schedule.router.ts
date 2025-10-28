@@ -1,32 +1,33 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import express from "express";
-import { LeaveControllers } from "./leave.controller";
 
+
+import { ScheduleControllers } from "./schedule.controller";
 
 
 const router = express.Router();
 router.get(
   "/",
 //   auth("admin", "company", "creator", "user", "director"),
-  LeaveControllers.getAllLeave
+ScheduleControllers.getAllSchedule
 );
 router.get(
   "/:id",
 //   auth("admin", "user", "director", "company", "creator"),
-LeaveControllers.getSingleLeave
+ScheduleControllers.getSingleSchedule
 );
 router.post(
   "/",
 //   auth("admin", "user", "director", "company", "creator"),
-LeaveControllers.createLeave
+ScheduleControllers.createSchedule
 );
 
 router.patch(
   "/:id",
 //   auth("admin", "user", "creator", "company", "director"),
-LeaveControllers.updateLeave
+ScheduleControllers.updateSchedule
 );
 
 
 
-export const LeaveRoutes = router;
+export const ScheduleRoutes = router;
