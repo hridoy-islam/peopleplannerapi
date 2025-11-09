@@ -45,14 +45,14 @@ const checkLogin = async (payload: TLogin) => {
     };
 
     const accessToken = createToken(
-      jwtPayload,
+      jwtPayload as any,
 
       config.jwt_access_secret as string,
       config.jwt_access_expires_in as string
     );
 
     const refreshToken = createToken(
-      jwtPayload,
+      jwtPayload as any,
       config.jwt_refresh_secret as string,
       config.jwt_refresh_expires_in as string
     );
@@ -92,7 +92,7 @@ const refreshToken = async (token: string) => {
 
     // Generate new access token
     const newAccessToken = createToken(
-      jwtPayload,
+      jwtPayload as any,
       config.jwt_access_secret as string,
       config.jwt_access_expires_in as string
     );
@@ -261,13 +261,13 @@ export const verifyEmailIntoDB = async (email: string, otp: string) => {
   };
 
   const accessToken = createToken(
-    jwtPayload,
+    jwtPayload as any, 
     config.jwt_access_secret as string,
     config.jwt_access_expires_in as string
   );
 
   const refreshToken = createToken(
-    jwtPayload,
+    jwtPayload as any,
     config.jwt_refresh_secret as string,
     config.jwt_refresh_expires_in as string
   );

@@ -10,7 +10,7 @@ import { TrainingModule } from "./training.interface";
 const getAllTrainingFromDB = async (query: Record<string, unknown>) => {
   const userQuery = new QueryBuilder(Training.find(), query)
     .search(TrainingSearchableFields)
-    .filter()
+    .filter(query)
     .sort()
     .paginate()
     .fields();

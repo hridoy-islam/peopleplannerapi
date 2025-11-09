@@ -7,29 +7,29 @@ import auth from "../../../middlewares/auth";
 const router = express.Router();
 router.get(
   "/",
-  auth("admin", "company", "creator", "user", "director"),
+  auth("admin", "user", "director"),
   EmployeeRateControllers.getAllEmployeeRate
 );
 router.get(
   "/:id",
-  auth("admin", "user", "director", "company", "creator"),
+  auth("admin", "user", "director"),
 EmployeeRateControllers.getSingleEmployeeRate
 );
 router.post(
   "/",
-  auth("admin", "user", "director", "company", "creator"),
+  auth("admin", "user", "director"),
 EmployeeRateControllers.createEmployeeRate
 );
 
 router.patch(
   "/:id",
-  auth("admin", "user", "creator", "company", "director"),
+  auth("admin", "user", "director"),
 EmployeeRateControllers.updateEmployeeRate
 );
 
 router.delete(
   "/:id",
-  auth("admin", "user", "creator", "company", "director"),
+  auth("admin", "user", "director"),
   EmployeeRateControllers.deleteEmployeeRate
 );
 

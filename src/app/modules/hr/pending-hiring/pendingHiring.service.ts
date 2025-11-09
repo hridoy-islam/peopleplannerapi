@@ -72,7 +72,7 @@ const updatePendingHiringIntoDB = async (
   }).select("+password"); 
 
   if (payload.status === "approved" && pendingHiring.status !== "approved") {
-    const { email } = result;
+    const { email } = result as any;
 
     const existingUser = await User.findOne({ email }).lean();
     if (existingUser) {
@@ -84,19 +84,19 @@ const updatePendingHiringIntoDB = async (
     } else {
       try {
         // Step 3b: Prepare user data for insertion
-        const userData = result.toObject();
-        delete userData._id;
-        delete userData.__v;
+        const userData = result?.toObject();
+        delete (userData as any)?._id;
+        delete (userData as any)?.__v;
 
-        userData.role = "staff"; // role for auth
-        userData.status = "active"; // user account status
+        (userData as any).role = "staff"; // role for auth
+        (userData as any).status = "active"; // user account status
 
         // Ensure timestamps
-        userData.createdAt = new Date();
-        userData.updatedAt = new Date();
+        (userData as any).createdAt = new Date();
+        (userData as any).updatedAt = new Date();
 
         // Step 3c: Insert into Users collection
-        await User.collection.insertOne(userData);
+        await User.collection.insertOne(userData as any);
 
         // console.log(`✅ User created with role "staff" and password included: ${email}`);
       } catch (error: any) {

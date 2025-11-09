@@ -60,7 +60,7 @@ const updateUserIntoDB = async (id: string, payload: Partial<TUser>) => {
 
 
 const getAllUserByCompany = async (userId: string) => {
-  const user = await User.findById(userId).populate('colleagues'); ;
+  const user = await User.findById(userId); ;
   if (!user) {
     return null;
   }
@@ -70,99 +70,9 @@ const getAllUserByCompany = async (userId: string) => {
     _id: { $ne: userId }, // Exclude the current user
   };
 
-  // Determine the user's role and set the query accordingly
-  if (user.role === 'admin' || user.role === 'director') {
-    // Fetch users with roles 'admin' or 'director' and not deleted
-    const query = { $or: [
-      { role: { $in: ['admin', 'director'] } }, // Fetch admins and directors
-      { _id: { $in: user.colleagues || [] } }  // Include the user's colleagues
-    ], isDeleted: false };
-    let filteredUsers = await User.find(query).lean();
+
+
   
-    // Move the current user to the top of the list
-    filteredUsers = filteredUsers.sort((a, b) => (a._id.toString() === user.id ? -1 : b._id.toString() === user.id ? 1 : 0));
-  
-    return filteredUsers;
-  }
-  
-
-  else if (user.role === 'company') {
-    const query = { 
-      company: user._id, 
-      role: { $in: ['creator', 'user'] } ,
-      isDeleted: false
-    };
-    const companyUsers = await User.find(query).lean();
-
-      // Include colleagues in the query
-      if (user.colleagues?.length) {
-        const colleagues = await User.find({ _id: { $in: user.colleagues }, isDeleted: false }).lean();
-        companyUsers.push(...colleagues);
-      }
-
-      
-    if (!companyUsers.some(existingUser => existingUser._id.toString() === user._id.toString())) {
-      companyUsers.unshift(user);  // Add the user to the list
-    }
-    return companyUsers // Return users from the same company
-  }
-
-
-  else if (user.role === 'creator') {
-    const companyId = user.company; // Get the company ID of the user
-
-    // Build the query to fetch all users with the same company ID
-    query.company = companyId;  // Only users who share the same company ID
-    query.isDeleted = false; 
-
-    // Execute the query to find users
-    const users = await User.find(query).lean();
-
-    if (companyId && !users.some(user => user._id.toString() === companyId.toString())) {
-      const company = await User.findById(companyId).lean(); // Fetch the company as a user
-      if (company && company.isDeleted === false) {
-        // Add the company to the users list if it's not deleted
-        users.unshift(company); // Insert the company at the beginning
-      }
-    }
-
-
- // Include colleagues in the query
- if (user.colleagues?.length) {
-  const colleagues = await User.find({ _id: { $in: user.colleagues }, isDeleted: false }).lean();
-  users.push(...colleagues);
-}
-
-    if (!users.some(existingUser => existingUser._id.toString() === user._id.toString())) {
-      users.unshift(user);  // Add the user to the list
-    }
-  
-    return users;
-  }
-
-
-  else if (user.role === 'user' ) {
-    // Users can only see their colleagues
-
-    const colleaguesIds = user.colleagues || [];
-    query.$or = [
-      { _id: { $in: colleaguesIds } }, // Fetch users from the colleagues array
-      // { company: user.company }, // Include users from the same company
-  
-    ];
-    if (user.company) {
-      query.$or.unshift({ _id: user.company });
-    }
-    const colleagues = await User.find(query).lean(); // Fetch colleagues based on the query
-  
-      // Include the user's own ID in the list if it's not already included
-  if (!colleagues.some(existingUser => existingUser._id.toString() === user._id.toString())) {
-    colleagues.unshift(user); // Add the user to the colleagues list
-  }
-
-    return colleagues; // Return only the colleagues
-  }
-
   
   const users = await User.find(query);
   return users;

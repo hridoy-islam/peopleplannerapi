@@ -70,7 +70,7 @@ export const generateAnnualHolidayForAllUsers = async () => {
     const exists = await Holiday.findOne({ userId: user._id, year });
 
     if (!exists) {
-      const contractHours = Number(user.contractHours) || 0;
+      const contractHours = Number(user.contractHours ) || 0;
       const totalHours = contractHours * 5.6;
 
       await Holiday.create({

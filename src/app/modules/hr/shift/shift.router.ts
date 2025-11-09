@@ -7,29 +7,29 @@ import auth from "../../../middlewares/auth";
 const router = express.Router();
 router.get(
   "/",
-  auth("admin", "company", "creator", "user", "director"),
+  auth("admin", "user", "director"),
   ShiftControllers.getAllShift
 );
 router.get(
   "/:id",
-  auth("admin", "user", "director", "company", "creator"),
+  auth("admin", "user", "director"),
 ShiftControllers.getSingleShift
 );
 router.post(
   "/",
-  auth("admin", "user", "director", "company", "creator"),
+  auth("admin", "user", "director", ),
 ShiftControllers.createShift
 );
 
 router.patch(
   "/:id",
-  auth("admin", "user", "creator", "company", "director"),
+  auth("admin", "user", "director"),
 ShiftControllers.updateShift
 );
 
 router.delete(
   "/:id",
-  auth("admin", "user", "creator", "company", "director"),
+  auth("admin", "user", "director"),
   ShiftControllers.deleteShift
 );
 

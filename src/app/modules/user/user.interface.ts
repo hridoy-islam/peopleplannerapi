@@ -92,6 +92,11 @@ export interface TUser {
   title?: string;
   firstName?: string;
   middleInitial?: string;
+  initial:string;
+  mobilePhone:string;
+  contractHours:string;
+  otherPhone:string;
+  source: string;
   lastName?: string;
   preferredName?: string;
   dateOfBirth?: Date | string;
@@ -150,6 +155,7 @@ export interface TUser {
   designationId?: Types.ObjectId;
 
   // Employment application data
+  startDateEmployee:Date;
   vacancyId?: Types.ObjectId;
   recruitmentId?: Types.ObjectId;
   applicantId?: Types.ObjectId;

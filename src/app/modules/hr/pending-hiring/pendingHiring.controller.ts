@@ -44,7 +44,7 @@ const createPendingHiring = catchAsync(async (req, res) => {
 if (!token) {
     throw new Error("Tokenis missing in the headers");
   }
-  const result = await PendingHiringServices.createPendingHiringIntoDB( req.body,token);
+  const result = await PendingHiringServices.createPendingHiringIntoDB( req.body,token as string);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
