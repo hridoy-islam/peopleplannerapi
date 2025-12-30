@@ -6,7 +6,7 @@ export interface TServiceItem {
   endDate: Date;
 }
 
-export interface TPayroll extends Document {
+export interface TInvoice extends Document {
   userId: mongoose.Types.ObjectId;
   serviceNumber: Number;
   period: String;

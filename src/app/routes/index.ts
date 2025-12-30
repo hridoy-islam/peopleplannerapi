@@ -18,7 +18,10 @@ import { LeaveRoutes } from "../modules/hr/leave/leave.router";
 import { BankHolidayRoutes } from "../modules/hr/bank-holiday/bank-holiday.router";
 import { PendingHiringRoutes } from "../modules/hr/pending-hiring/pendingHiring.router";
 import { RightToWorkRoutes } from "../modules/hr/rightToWork/rightToWork.router";
-
+import { PayrollRoutes } from "../modules/hr/payroll/payroll.router";
+import { InvoiceRoutes } from "../modules/hr/invoice/invoice.router";
+import {ReportRoutes} from "../modules/hr/report/report.router"
+import { DeviceRoutes } from "../modules/hr/devices/device.router";
 const router = Router();
 
 const moduleRoutes = [
@@ -98,6 +101,23 @@ const moduleRoutes = [
   {
     path: "/schedules",
     route: ScheduleRoutes,
+  },
+  {
+    path: "/payrolls",
+    route: PayrollRoutes,
+  },
+  {
+    path: "/invoices",
+    route: InvoiceRoutes,
+  },
+  {
+    path: "/reports",
+    route: ReportRoutes,
+  },
+
+  {
+    path: "/devices",
+    route: DeviceRoutes,
   },
 ];
 
