@@ -12,6 +12,11 @@ router.get(
 ScheduleControllers.getAllSchedule
 );
 router.get(
+  "/upcoming",
+//   auth("admin", "company", "creator", "user", "director"),
+ScheduleControllers.getAllUpcomingSchedule
+);
+router.get(
   "/:id",
 //   auth("admin", "user", "director", "company", "creator"),
 ScheduleControllers.getSingleSchedule
@@ -26,6 +31,11 @@ router.patch(
   "/:id",
 //   auth("admin", "user", "creator", "company", "director"),
 ScheduleControllers.updateSchedule
+);
+router.delete(
+  "/:id",
+//   auth("admin", "user", "creator", "company", "director"),
+ScheduleControllers.deleteSingleSchedule 
 );
 
 

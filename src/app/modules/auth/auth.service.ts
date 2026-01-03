@@ -14,7 +14,6 @@ import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import moment from "moment";
 
-
 function generateOTP() {
   const otp = Math.floor(1000 + Math.random() * 9000).toString();
   return otp;
@@ -40,8 +39,10 @@ const checkLogin = async (payload: TLogin) => {
       _id: foundUser._id?.toString(),
       email: foundUser?.email,
       name: foundUser?.name,
+      firstName: foundUser?.firstName,
+      lastName: foundUser?.lastName,
       role: foundUser?.role,
-      authorized: foundUser?.authorized
+      authorized: foundUser?.authorized,
     };
 
     const accessToken = createToken(
@@ -74,7 +75,7 @@ const refreshToken = async (token: string) => {
   }
   const decoded = verifyToken(token, config.jwt_refresh_secret as string);
 
-  const {  email } = decoded;
+  const { email } = decoded;
 
   const foundUser = await User.isUserExists(email);
 
@@ -83,10 +84,12 @@ const refreshToken = async (token: string) => {
   }
 
   try {
-    const jwtPayload= {
+    const jwtPayload = {
       _id: foundUser._id.toString(),
       email: foundUser.email,
       name: foundUser.name,
+      firstName: foundUser?.firstName,
+      lastName: foundUser?.lastName,
       role: foundUser.role,
     };
 
@@ -135,6 +138,8 @@ const googleLogin = async (payload: {
           _id: newUser._id?.toString(),
           email: newUser?.email,
           name: newUser?.name,
+          firstName: newUser?.firstName,
+          lastName: newUser?.lastName,
           role: newUser?.role,
         },
         `${config.jwt_access_secret}`,
@@ -192,7 +197,6 @@ const createUserIntoDB = async (payload: TCreateUser) => {
     payload.password = "123456";
   }
 
- 
   const otp = generateOTP();
   const newUserPayload = {
     ...payload,
@@ -209,12 +213,11 @@ const createUserIntoDB = async (payload: TCreateUser) => {
     //   payload.name
     // );
   } catch (error) {
-    console.error('Error sending welcome email:', error);
+    console.error("Error sending welcome email:", error);
   }
 
   return result;
 };
-
 
 const EmailSendOTP = async (email: string) => {
   const user = await User.isUserExists(email);
@@ -227,30 +230,27 @@ const EmailSendOTP = async (email: string) => {
   // send email
 };
 
-
-
-
 export const verifyEmailIntoDB = async (email: string, otp: string) => {
   const foundUser = await User.findOne({ email: email.toLowerCase() });
 
   if (!foundUser) {
-    throw new AppError(httpStatus.NOT_FOUND, 'Email is not correct');
+    throw new AppError(httpStatus.NOT_FOUND, "Email is not correct");
   }
 
   // Check OTP
   if (foundUser.otp !== otp) {
-    throw new AppError(httpStatus.BAD_REQUEST, 'Invalid OTP!');
+    throw new AppError(httpStatus.BAD_REQUEST, "Invalid OTP!");
   }
 
   // Check OTP expiry using moment
   if (foundUser.otpExpires && moment().isAfter(moment(foundUser.otpExpires))) {
-    throw new AppError(httpStatus.BAD_REQUEST, 'OTP has expired');
+    throw new AppError(httpStatus.BAD_REQUEST, "OTP has expired");
   }
 
   // Update user: mark as authorized and clear OTP
   await User.updateOne(
     { email: email.toLowerCase() },
-    { authorized: true, otp: '', otpExpires: null }
+    { authorized: true, otp: "", otpExpires: null }
   );
 
   const jwtPayload = {
@@ -261,7 +261,7 @@ export const verifyEmailIntoDB = async (email: string, otp: string) => {
   };
 
   const accessToken = createToken(
-    jwtPayload as any, 
+    jwtPayload as any,
     config.jwt_access_secret as string,
     config.jwt_access_expires_in as string
   );
@@ -274,7 +274,7 @@ export const verifyEmailIntoDB = async (email: string, otp: string) => {
 
   return {
     accessToken,
-    refreshToken
+    refreshToken,
   };
 };
 
@@ -296,7 +296,6 @@ export const verifyEmailIntoDB = async (email: string, otp: string) => {
 //   sendEmail(user.email, resetUILink);
 // };
 
-
 const forgetPasswordOtp = async (email: string) => {
   const user = await User.isUserExists(email);
   if (!user) {
@@ -308,23 +307,22 @@ const resetPassword = async (
   payload: { email: string; newPassword: string },
   token: string
 ) => {
-  const user = await User.findOne({ email: payload.email }).select('+password');
+  const user = await User.findOne({ email: payload.email }).select("+password");
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, "This user is not found !");
   }
-  
+
   const decoded = jwt.verify(
     token,
     config.jwt_access_secret as string
   ) as JwtPayload;
-  
+
   if (payload.email !== decoded.email) {
     throw new AppError(httpStatus.FORBIDDEN, "You are forbidden!");
   }
-  
+
   user.password = payload.newPassword;
-  await user.save(); 
-  
+  await user.save();
 
   return user;
 };

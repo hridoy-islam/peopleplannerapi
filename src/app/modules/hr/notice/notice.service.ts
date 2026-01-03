@@ -5,23 +5,61 @@ import { TNotice } from "./notice.interface";
 import { NoticeSearchableFields } from "./notice.constant";
 import AppError from "../../../errors/AppError";
 import QueryBuilder from "../../../builder/QueryBuilder";
+import { User } from "../../user/user.model";
 
 const getAllNoticeFromDB = async (query: Record<string, unknown>) => {
-  const userQuery = new QueryBuilder(Notice.find().populate("designation" ,"title").populate("department" ,"departmentName").populate("users" ,"title firstName lastName").populate("noticeBy" ,"title firstName lastName"), query)
+  let user;
+
+  // 1️⃣ SEPARATE userId from the rest of the query filters
+  // We use 'filterQuery' for the QueryBuilder to avoid the 'userId' field breaking the search
+  const { userId, ...filterQuery } = query;
+
+  // 2️⃣ If userId is provided, fetch user
+  if (userId) {
+    user = await User.findById(userId)
+      .select("_id departmentId designationId")
+      .lean();
+  }
+
+  // 3️⃣ Build base filter (Who can see what?)
+  const noticeFilter: any = {};
+
+  if (user) {
+    // Server-side user-specific filtering
+    noticeFilter.$or = [
+      { noticeSetting: "all" },
+      { noticeSetting: "department", department: user.departmentId },
+      { noticeSetting: "designation", designation: user.designationId },
+      { noticeSetting: "individual", users: user._id },
+    ];
+  }
+
+  // 4️⃣ Apply QueryBuilder
+  // Initialize find with the permission filter we built above
+  const baseQuery = Notice.find(noticeFilter)
+    .populate("designation", "title")
+    .populate("department", "departmentName")
+    .populate("users", "title firstName lastName")
+    .populate("noticeBy", "title firstName lastName");
+
+  // Pass 'filterQuery' (which does NOT contain userId) to the builder
+  const noticeQueryBuilder = new QueryBuilder(baseQuery, filterQuery)
     .search(NoticeSearchableFields)
-    .filter(query)
+    .filter(filterQuery) // <--- CRITICAL CHANGE: Using cleaned query object
     .sort()
     .paginate()
     .fields();
 
-  const meta = await userQuery.countTotal();
-  const result = await userQuery.modelQuery;
+  const meta = await noticeQueryBuilder.countTotal();
+  const result = await noticeQueryBuilder.modelQuery;
 
   return {
     meta,
     result,
   };
 };
+
+
 
 const getSingleNoticeFromDB = async (id: string) => {
   const result = await Notice.findById(id);

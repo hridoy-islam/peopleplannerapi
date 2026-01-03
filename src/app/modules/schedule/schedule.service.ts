@@ -6,10 +6,131 @@ import { Schedule } from "./schedule.model";
 import { ScheduleSearchableFields } from "./schedule.constant";
 import { TSchedule } from "./schedule.interface";
 
+import moment from 'moment';
+
 const getAllScheduleFromDB = async (query: Record<string, unknown>) => {
-  const userQuery = new QueryBuilder(Schedule.find(), query)
+  const modifiedQuery = { ...query };
+
+  // Case 1: Explicit date range (highest priority)
+  if (query.startDate && query.endDate) {
+    const startDate = moment(query.startDate as string)
+      .startOf('day')
+      .toDate();
+
+    const endDate = moment(query.endDate as string)
+      .endOf('day')
+      .toDate();
+
+    modifiedQuery.date = {
+      $gte: startDate,
+      $lte: endDate,
+    };
+
+    delete modifiedQuery.startDate;
+    delete modifiedQuery.endDate;
+  }
+
+  // Case 2: Single selected date → previous 6 days
+  else if (query.date) {
+    const selectedDate = moment(query.date as string);
+
+    const startDate = selectedDate
+      .clone()
+      .subtract(6, 'days')
+      .startOf('day')
+      .toDate();
+
+    const endDate = selectedDate
+      .clone()
+      .endOf('day')
+      .toDate();
+
+    modifiedQuery.date = {
+      $gte: startDate,
+      $lte: endDate,
+    };
+
+    delete modifiedQuery.date;
+  }
+
+  const userQuery = new QueryBuilder(
+    Schedule.find()
+      .populate({
+        path: 'serviceUser',
+        select: 'firstName lastName email title',
+      })
+      .populate({
+        path: 'serviceFunder',
+        select: 'firstName lastName email title',
+      })
+      .populate({
+        path: 'employee',
+        select: 'firstName lastName email title',
+      }),
+    modifiedQuery
+  )
     .search(ScheduleSearchableFields)
-    .filter(query)
+    .filter(modifiedQuery)
+    .sort()
+    .paginate()
+    .fields();
+
+  const meta = await userQuery.countTotal();
+  const result = await userQuery.modelQuery;
+
+  return {
+    meta,
+    result,
+  };
+};
+
+
+const getAllUpcomingScheduleFromDB = async (query: Record<string, unknown>) => {
+  // 1. Create a copy of the query
+  const modifiedQuery = { ...query };
+
+  if (query.date) {
+    const referenceDate = query.date ? query.date : new Date();
+
+    // Logic: If input is 2026-01-02, startDate becomes 2026-01-03 00:00:00
+    // This successfully excludes "today" and "previous" dates.
+    const startDate = moment(referenceDate)
+      .add(1, 'days')
+      .startOf('day')
+      .toDate();
+
+    const endDate = moment(startDate)
+      .add(7, 'days')
+      .endOf('day')
+      .toDate();
+
+    // 2. Overwrite the date field with the range filter
+    modifiedQuery.date = {
+      $gte: startDate,
+      $lte: endDate,
+    };
+    
+
+  }
+
+  const userQuery = new QueryBuilder(
+    Schedule.find()
+      .populate({
+        path: 'serviceUser',
+        select: 'firstName lastName email title',
+      })
+      .populate({
+        path: 'serviceFunder',
+        select: 'firstName lastName email title',
+      })
+      .populate({
+        path: 'employee',
+        select: 'firstName lastName email title',
+      }),
+    modifiedQuery
+  )
+    .search(ScheduleSearchableFields)
+    .filter(modifiedQuery)
     .sort()
     .paginate()
     .fields();
@@ -73,10 +194,27 @@ const updateScheduleIntoDB = async (
 
   return result;
 };
+const deleteScheduleIntoDB = async (
+  id: string,
+) => {
+  const schedule = await Schedule.findById(id);
+
+  if (!schedule) {
+    throw new AppError(httpStatus.NOT_FOUND, "Schedule not found");
+  }
+
+
+  
+  const result = await Schedule.findByIdAndDelete(id);
+
+  return result;
+};
 
 export const ScheduleServices = {
   getAllScheduleFromDB,
   getSingleScheduleFromDB,
   updateScheduleIntoDB,
   createScheduleIntoDB,
+  deleteScheduleIntoDB,
+  getAllUpcomingScheduleFromDB
 };

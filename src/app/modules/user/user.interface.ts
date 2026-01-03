@@ -151,7 +151,7 @@ export interface TUser {
   company?: Types.ObjectId;
   colleagues?: Types.ObjectId[];
   departmentId?: Types.ObjectId;
-  trainingId?: Types.ObjectId[];
+  training?: any[];
   designationId?: Types.ObjectId;
 
   // Employment application data

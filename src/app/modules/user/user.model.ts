@@ -107,6 +107,33 @@ const NotesSchema = new Schema(
   
 );
 
+const trainingSchema = new Schema(
+  {
+    trainingId: {
+      type: Schema.Types.ObjectId,
+      ref: "Training",
+      required: true,
+    },
+    status: {
+      type: String,
+    },
+    assignedDate: {
+      type: Date,
+    },
+    expireDate: {
+      type: Date,
+     
+    },
+    completedAt:{
+      type: Date,
+    },
+    certificate:{
+      type: String,
+    }
+  }
+ 
+);
+
 const userSchema = new Schema<TUser, UserModel>(
   {
     // Basic user info
@@ -164,7 +191,7 @@ const userSchema = new Schema<TUser, UserModel>(
     phone: { type: String },
     fax: { type: String },
     mobile: { type: String },
-    other: { type: String },
+    otherPhone: { type: String },
     homePhone: { type: String },
     website: { type: String },
 
@@ -218,7 +245,7 @@ const userSchema = new Schema<TUser, UserModel>(
 
     // Misc
     departmentId: { type: Schema.Types.ObjectId, ref: "Department" },
-    trainingId: [{ type: Schema.Types.ObjectId, ref: "Training" }],
+    training: [{ type: trainingSchema }],
     designationId: { type: Schema.Types.ObjectId, ref: "Designation" },
   },
   {

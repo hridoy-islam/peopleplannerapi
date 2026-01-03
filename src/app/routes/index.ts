@@ -22,6 +22,8 @@ import { PayrollRoutes } from "../modules/hr/payroll/payroll.router";
 import { InvoiceRoutes } from "../modules/hr/invoice/invoice.router";
 import {ReportRoutes} from "../modules/hr/report/report.router"
 import { DeviceRoutes } from "../modules/hr/devices/device.router";
+import { RequestDocumentRoutes } from "../modules/hr/request-document/requestDocument.router";
+import { UploadDocumentRoutes } from "../modules/documents/documents.route";
 const router = Router();
 
 const moduleRoutes = [
@@ -94,6 +96,10 @@ const moduleRoutes = [
     path: "/hr/right-to-work",
     route: RightToWorkRoutes,
   },
+    {
+    path: "/hr/request-document",
+    route: RequestDocumentRoutes,
+  },
   {
     path: "/service-funder",
     route: FunderRoutes,
@@ -118,6 +124,10 @@ const moduleRoutes = [
   {
     path: "/devices",
     route: DeviceRoutes,
+  },
+   {
+    path: "/documents",
+    route: UploadDocumentRoutes,
   },
 ];
 

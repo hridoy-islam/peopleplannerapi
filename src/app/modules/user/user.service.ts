@@ -9,7 +9,7 @@ const getAllUserFromDB = async (query: Record<string, unknown>) => {
   const userQuery = new QueryBuilder(
     User.find()
       .populate({ path: 'departmentId', select: 'departmentName' })
-      .populate({ path: 'trainingId', select: 'name' })
+      .populate({ path: 'training', select: 'name' })
       .populate({ path: 'designationId', select: 'title' }),
     query
   )
@@ -30,7 +30,10 @@ const getAllUserFromDB = async (query: Record<string, unknown>) => {
 
 
 const getSingleUserFromDB = async (id: string) => {
-  const result = await User.findById(id).populate("colleagues company");
+  const result = await User.findById(id)
+    .populate("colleagues company")
+    .populate("training.trainingId");
+    
   return result;
 };
 
