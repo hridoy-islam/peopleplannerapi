@@ -24,6 +24,10 @@ import {ReportRoutes} from "../modules/hr/report/report.router"
 import { DeviceRoutes } from "../modules/hr/devices/device.router";
 import { RequestDocumentRoutes } from "../modules/hr/request-document/requestDocument.router";
 import { UploadDocumentRoutes } from "../modules/documents/documents.route";
+import { NeedRoutes } from "../modules/needs/needs.router";
+import { AboutMeLogRoutes } from "../modules/aboutMeLog/aboutMeLog.router";
+import { ImportantPersonRoutes } from "../modules/importantPerson/importantPerson.router";
+import { ContingencyPlanRoutes } from "../modules/contingencyPlan/contingencyPlan.router";
 const router = Router();
 
 const moduleRoutes = [
@@ -96,7 +100,7 @@ const moduleRoutes = [
     path: "/hr/right-to-work",
     route: RightToWorkRoutes,
   },
-    {
+  {
     path: "/hr/request-document",
     route: RequestDocumentRoutes,
   },
@@ -125,7 +129,23 @@ const moduleRoutes = [
     path: "/devices",
     route: DeviceRoutes,
   },
-   {
+  {
+    path: "/needs",
+    route: NeedRoutes,
+  },
+  {
+    path: "/about-me-logs",
+    route: AboutMeLogRoutes,
+  },
+  {
+    path: "/important-people",
+    route: ImportantPersonRoutes,
+  },
+  {
+    path: "/contingency-plan",
+    route: ContingencyPlanRoutes,
+  },
+  {
     path: "/documents",
     route: UploadDocumentRoutes,
   },

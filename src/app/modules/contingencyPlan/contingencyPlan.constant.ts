@@ -1,0 +1,4 @@
+
+  
+  export const ContingencyPlanSearchableFields = ["title"];
+  
