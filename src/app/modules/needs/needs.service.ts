@@ -69,8 +69,7 @@ const updateNeedIntoDB = async (
 
 
 const deleteNeedIntoDB = async (
-  id: string,
-  payload: Partial<TNeed>
+  id: string
 ) => {
   const need = await Need.findById(id);
 

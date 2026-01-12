@@ -29,7 +29,7 @@ import { AboutMeLogRoutes } from "../modules/aboutMeLog/aboutMeLog.router";
 import { ImportantPersonRoutes } from "../modules/importantPerson/importantPerson.router";
 import { ContingencyPlanRoutes } from "../modules/contingencyPlan/contingencyPlan.router";
 import { ServiceUserDocumentRoutes } from "../modules/serviceUserDocuments/serviceUserDocument.router";
-import { ConsentRoutes, StatementRoutes } from "../modules/statements/statement.router";
+import { StatementRoutes } from "../modules/statements/statement.router";
 import { ConsentFormRoutes } from "../modules/consentForm/consentForm.router";
 const router = Router();
 

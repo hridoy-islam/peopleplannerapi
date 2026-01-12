@@ -2,9 +2,9 @@ import httpStatus from "http-status";
 
 import { ConsentForm } from "./userErrorNotification.model";
 import { TConsentForm } from "./userErrorNotification.interface";
-import { ConsentFormSearchableFields } from "./userErrorNotification.constant";
 import QueryBuilder from "../../builder/QueryBuilder";
 import AppError from "../../errors/AppError";
+import { ConsentFormSearchableFields } from "../consentForm/consentForm.constant";
 
 const getAllConsentFormFromDB = async (query: Record<string, unknown>) => {
   const userQuery = new QueryBuilder(ConsentForm.find(), query)
