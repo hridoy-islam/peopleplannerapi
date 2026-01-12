@@ -1,38 +1,36 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import express from "express";
-import { ImportantPersonControllers } from "./importantPerson.controller";
+import { ServiceUserDocumentControllers } from "./serviceUserDocument.controller";
 
 
 const router = express.Router();
 router.get(
   "/",
 //   auth("admin", "company", "creator", "user", "director"),
-  ImportantPersonControllers.getAllImportantPerson
+  ServiceUserDocumentControllers.getAllServiceUserDocument
 );
 router.get(
   "/:id",
 //   auth("admin", "user", "director", "company", "creator"),
-ImportantPersonControllers.getSingleImportantPerson
+ServiceUserDocumentControllers.getSingleServiceUserDocument
 );
 router.post(
   "/",
 //   auth("admin", "user", "director", "company", "creator"),
-ImportantPersonControllers.createImportantPerson
+ServiceUserDocumentControllers.createServiceUserDocument
 );
 
 router.patch(
   "/:id",
 //   auth("admin", "user", "creator", "company", "director"),
-ImportantPersonControllers.updateImportantPerson
+ServiceUserDocumentControllers.updateServiceUserDocument
 );
-
-
 router.delete(
   "/:id",
 //   auth("admin", "user", "creator", "company", "director"),
-ImportantPersonControllers.deleteSingleImportantPerson
+ServiceUserDocumentControllers.deleteSingleServiceUserDocument
 );
 
 
 
-export const ImportantPersonRoutes = router;
+export const ServiceUserDocumentRoutes = router;

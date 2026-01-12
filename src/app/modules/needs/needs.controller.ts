@@ -50,12 +50,24 @@ const createNeed = catchAsync(async (req, res) => {
   });
 });
 
+const deleteSingleNeed = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await NeedServices.deleteNeedIntoDB(id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Need is deleted succesfully",
+    data: result,
+  });
+});
+
 
 
 export const NeedControllers = {
     getAllNeed,
     getSingleNeed,
     updateNeed,
-    createNeed
+    createNeed,
+    deleteSingleNeed
 };
 

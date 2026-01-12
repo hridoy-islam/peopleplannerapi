@@ -38,7 +38,7 @@ const checkLogin = async (payload: TLogin) => {
     const jwtPayload = {
       _id: foundUser._id?.toString(),
       email: foundUser?.email,
-      name: foundUser?.name,
+      name: foundUser?.name || `${foundUser?.firstName} ${foundUser?.lastName}`,
       firstName: foundUser?.firstName,
       lastName: foundUser?.lastName,
       role: foundUser?.role,

@@ -25,6 +25,11 @@ router.patch(
 //   auth("admin", "user", "creator", "company", "director"),
 NeedControllers.updateNeed
 );
+router.delete(
+  "/:id",
+//   auth("admin", "user", "creator", "company", "director"),
+NeedControllers.deleteSingleNeed
+);
 
 
 

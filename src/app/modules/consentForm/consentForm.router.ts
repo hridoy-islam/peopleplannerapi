@@ -1,38 +1,36 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import express from "express";
-import { ImportantPersonControllers } from "./importantPerson.controller";
+import { ConsentFormControllers } from "./consentForm.controller";
 
 
 const router = express.Router();
 router.get(
   "/",
 //   auth("admin", "company", "creator", "user", "director"),
-  ImportantPersonControllers.getAllImportantPerson
+  ConsentFormControllers.getAllConsentForm
 );
 router.get(
   "/:id",
 //   auth("admin", "user", "director", "company", "creator"),
-ImportantPersonControllers.getSingleImportantPerson
+ConsentFormControllers.getSingleConsentForm
 );
 router.post(
   "/",
 //   auth("admin", "user", "director", "company", "creator"),
-ImportantPersonControllers.createImportantPerson
+ConsentFormControllers.createConsentForm
 );
 
 router.patch(
   "/:id",
 //   auth("admin", "user", "creator", "company", "director"),
-ImportantPersonControllers.updateImportantPerson
+ConsentFormControllers.updateConsentForm
 );
-
-
 router.delete(
   "/:id",
 //   auth("admin", "user", "creator", "company", "director"),
-ImportantPersonControllers.deleteSingleImportantPerson
+ConsentFormControllers.deleteSingleConsentForm
 );
 
 
 
-export const ImportantPersonRoutes = router;
+export const ConsentFormRoutes = router;

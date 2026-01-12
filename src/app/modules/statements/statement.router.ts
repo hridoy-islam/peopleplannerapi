@@ -1,38 +1,36 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import express from "express";
-import { ImportantPersonControllers } from "./importantPerson.controller";
+import { StatementControllers } from "./statement.controller";
 
 
 const router = express.Router();
 router.get(
   "/",
 //   auth("admin", "company", "creator", "user", "director"),
-  ImportantPersonControllers.getAllImportantPerson
+  StatementControllers.getAllStatement
 );
 router.get(
   "/:id",
 //   auth("admin", "user", "director", "company", "creator"),
-ImportantPersonControllers.getSingleImportantPerson
+StatementControllers.getSingleStatement
 );
 router.post(
   "/",
 //   auth("admin", "user", "director", "company", "creator"),
-ImportantPersonControllers.createImportantPerson
+StatementControllers.createStatement
 );
 
 router.patch(
   "/:id",
 //   auth("admin", "user", "creator", "company", "director"),
-ImportantPersonControllers.updateImportantPerson
+StatementControllers.updateStatement
 );
-
-
 router.delete(
   "/:id",
 //   auth("admin", "user", "creator", "company", "director"),
-ImportantPersonControllers.deleteSingleImportantPerson
+StatementControllers.deleteSingleStatement
 );
 
 
 
-export const ImportantPersonRoutes = router;
+export const StatementRoutes = router;

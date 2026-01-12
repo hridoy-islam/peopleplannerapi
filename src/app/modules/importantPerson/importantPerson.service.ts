@@ -63,9 +63,24 @@ const updateImportantPersonIntoDB = async (id: string, payload: Partial<TImporta
   return result;
 };
 
+
+const deleteImportantPersonIntoDB = async (id: string) => {
+  const importantPerson = await ImportantPerson.findById(id);
+
+  if (!importantPerson) {
+    throw new AppError(httpStatus.NOT_FOUND, "Important Person not found");
+  }
+
+  
+  const result = await ImportantPerson.findByIdAndDelete(id);
+
+  return result;
+};
+
 export const ImportantPersonServices = {
   getAllImportantPersonFromDB,
   getSingleImportantPersonFromDB,
   updateImportantPersonIntoDB,
   createImportantPersonIntoDB,
+  deleteImportantPersonIntoDB
 };

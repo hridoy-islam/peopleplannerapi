@@ -3,22 +3,42 @@ import mongoose, { model, Schema } from "mongoose";
 import { string } from "zod";
 import { TAboutMeLog } from "./aboutMeLog.interface";
 
+const SectionSchema = new Schema(
+  {
+    description: {
+      type: String,
+      default: "",
+    },
+    supportedBy: {
+      type: String,
+      default: "", 
+    },
+  }
+);
+
 const AboutMeLogSchema = new Schema<TAboutMeLog>(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
+
     },
-    title: {
-      type: String,
-      required: true,
+    importantToMe: {
+      type: SectionSchema,
+      default: {},
     },
-    description: {
-      type: String,
+    importantPeople: {
+      type: SectionSchema,
+      default: {},
     },
-    description2: {
-      type: String,
+    dailyRoutine: {
+      type: SectionSchema,
+      default: {},
+    },
+    communication: {
+      type: SectionSchema,
+      default: {},
     },
   },
   {

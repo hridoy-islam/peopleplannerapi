@@ -19,7 +19,7 @@ router.get(
 
 router.patch(
   "/:id",
-  auth("admin", "user", "director"),
+  auth("admin", "user", "director","staff","serviceUser"),
   UserControllers.updateUser
 );
 

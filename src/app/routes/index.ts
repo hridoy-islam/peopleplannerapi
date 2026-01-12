@@ -20,7 +20,7 @@ import { PendingHiringRoutes } from "../modules/hr/pending-hiring/pendingHiring.
 import { RightToWorkRoutes } from "../modules/hr/rightToWork/rightToWork.router";
 import { PayrollRoutes } from "../modules/hr/payroll/payroll.router";
 import { InvoiceRoutes } from "../modules/hr/invoice/invoice.router";
-import {ReportRoutes} from "../modules/hr/report/report.router"
+import { ReportRoutes } from "../modules/hr/report/report.router";
 import { DeviceRoutes } from "../modules/hr/devices/device.router";
 import { RequestDocumentRoutes } from "../modules/hr/request-document/requestDocument.router";
 import { UploadDocumentRoutes } from "../modules/documents/documents.route";
@@ -28,6 +28,9 @@ import { NeedRoutes } from "../modules/needs/needs.router";
 import { AboutMeLogRoutes } from "../modules/aboutMeLog/aboutMeLog.router";
 import { ImportantPersonRoutes } from "../modules/importantPerson/importantPerson.router";
 import { ContingencyPlanRoutes } from "../modules/contingencyPlan/contingencyPlan.router";
+import { ServiceUserDocumentRoutes } from "../modules/serviceUserDocuments/serviceUserDocument.router";
+import { ConsentRoutes, StatementRoutes } from "../modules/statements/statement.router";
+import { ConsentFormRoutes } from "../modules/consentForm/consentForm.router";
 const router = Router();
 
 const moduleRoutes = [
@@ -148,6 +151,18 @@ const moduleRoutes = [
   {
     path: "/documents",
     route: UploadDocumentRoutes,
+  },
+  {
+    path: "/serviceUser-documents",
+    route: ServiceUserDocumentRoutes,
+  },
+  {
+    path: "/statements",
+    route: StatementRoutes,
+  },
+  {
+    path: "/consent-form",
+    route: ConsentFormRoutes,
   },
 ];
 

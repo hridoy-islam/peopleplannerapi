@@ -50,12 +50,25 @@ const createImportantPerson = catchAsync(async (req, res) => {
   });
 });
 
+const deleteSingleImportantPerson = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await ImportantPersonServices.deleteImportantPersonIntoDB(id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "ImportantPerson is deleted succesfully",
+    data: result,
+  });
+});
+
+
 
 
 export const ImportantPersonControllers = {
     getAllImportantPerson,
     getSingleImportantPerson,
     updateImportantPerson,
-    createImportantPerson
+    createImportantPerson,
+    deleteSingleImportantPerson
 };
 

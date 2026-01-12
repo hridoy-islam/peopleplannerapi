@@ -1,13 +1,21 @@
 import { Types } from "mongoose";
 
-export interface TAboutMeLog {
-  _id: Types.ObjectId;
-  title: string;
-  userId: Types.ObjectId;
-  description?: string;
 
-  description2?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+export interface TAboutMeAnswer {
+  description: string;
+  supportedBy: string; 
+}
+
+
+export interface TAboutMeLog {
+  _id: string;
+  userId: Types.ObjectId;
+  
  
+  importantToMe: TAboutMeAnswer;
+  importantPeople: TAboutMeAnswer;
+  dailyRoutine: TAboutMeAnswer;
+  communication: TAboutMeAnswer;
+
+  updatedAt?: Date;
 }

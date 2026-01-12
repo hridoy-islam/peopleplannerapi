@@ -67,9 +67,28 @@ const updateNeedIntoDB = async (
   return result;
 };
 
+
+const deleteNeedIntoDB = async (
+  id: string,
+  payload: Partial<TNeed>
+) => {
+  const need = await Need.findById(id);
+
+  if (!need) {
+    throw new AppError(httpStatus.NOT_FOUND, "Need not found");
+  }
+
+
+  const result = await Need.findByIdAndDelete(id);
+
+  return result;
+};
+
+
 export const NeedServices = {
   getAllNeedFromDB,
   getSingleNeedFromDB,
   updateNeedIntoDB,
   createNeedIntoDB,
+  deleteNeedIntoDB
 };
