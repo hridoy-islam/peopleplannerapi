@@ -11,62 +11,65 @@ import moment from 'moment';
 const getAllScheduleFromDB = async (query: Record<string, unknown>) => {
   const modifiedQuery = { ...query };
 
-  // Case 1: Explicit date range (highest priority)
-  if (query.startDate && query.endDate) {
-    const startDate = moment(query.startDate as string)
-      .startOf('day')
-      .toDate();
+  // --- Case 0: Today's Schedule (Highest Priority) ---
+  // If 'today' param is present, strictly fetch from start to end of current day
+  if (query.today === 'true' || query.today === true) {
+    const startOfDay = moment().startOf('day').toDate();
+    const endOfDay = moment().endOf('day').toDate();
 
-    const endDate = moment(query.endDate as string)
-      .endOf('day')
-      .toDate();
-
-    modifiedQuery.date = {
-      $gte: startDate,
-      $lte: endDate,
+    modifiedQuery.date = { 
+      $gte: startOfDay, 
+      $lte: endOfDay 
     };
 
+    // Clean up the utility field so it doesn't mess up the actual DB query
+    delete modifiedQuery.today;
+  }
+
+  // --- Case 1: Explicit date range ---
+  else if (query.startDate && query.endDate) {
+    const startDate = moment(query.startDate as string).startOf('day').toDate();
+    const endDate = moment(query.endDate as string).endOf('day').toDate();
+
+    modifiedQuery.date = { $gte: startDate, $lte: endDate };
     delete modifiedQuery.startDate;
     delete modifiedQuery.endDate;
   }
 
-  // Case 2: Single selected date → previous 6 days
-  else if (query.date) {
-    const selectedDate = moment(query.date as string);
+  // --- Case 2: Handle Specific Date Filter (Single Day View) ---
+  else if (query.dateFilter) {
+    const targetDate = moment(query.dateFilter as string); 
 
-    const startDate = selectedDate
-      .clone()
-      .subtract(6, 'days')
-      .startOf('day')
-      .toDate();
-
-    const endDate = selectedDate
-      .clone()
-      .endOf('day')
-      .toDate();
+    const startDate = targetDate.clone().startOf('day').toDate();
+    const endDate = targetDate.clone().endOf('day').toDate();
 
     modifiedQuery.date = {
       $gte: startDate,
       $lte: endDate,
     };
 
-    delete modifiedQuery.date;
+    delete modifiedQuery.dateFilter;
+  }
+
+  // --- Case 3: Default Weekly View (Previous default) ---
+  else if (query.date) {
+    const selectedDate = moment(query.date as string);
+
+    // End at the selected date, Start 6 days prior
+    const endDate = selectedDate.clone().endOf('day').toDate();
+    const startDate = selectedDate.clone().subtract(6, 'days').startOf('day').toDate();
+
+    modifiedQuery.date = {
+      $gte: startDate,
+      $lte: endDate,
+    };
   }
 
   const userQuery = new QueryBuilder(
     Schedule.find()
-      .populate({
-        path: 'serviceUser',
-        select: 'firstName lastName email title',
-      })
-      .populate({
-        path: 'serviceFunder',
-        select: 'firstName lastName email title',
-      })
-      .populate({
-        path: 'employee',
-        select: 'firstName lastName email title',
-      }),
+      .populate({ path: 'serviceUser', select: 'firstName lastName email title' })
+      .populate({ path: 'serviceFunder', select: 'firstName lastName email title' })
+      .populate({ path: 'employee', select: 'firstName lastName email title' }),
     modifiedQuery
   )
     .search(ScheduleSearchableFields)
@@ -78,12 +81,8 @@ const getAllScheduleFromDB = async (query: Record<string, unknown>) => {
   const meta = await userQuery.countTotal();
   const result = await userQuery.modelQuery;
 
-  return {
-    meta,
-    result,
-  };
+  return { meta, result };
 };
-
 
 const getAllUpcomingScheduleFromDB = async (query: Record<string, unknown>) => {
   // 1. Create a copy of the query
@@ -91,9 +90,6 @@ const getAllUpcomingScheduleFromDB = async (query: Record<string, unknown>) => {
 
   if (query.date) {
     const referenceDate = query.date ? query.date : new Date();
-
-    // Logic: If input is 2026-01-02, startDate becomes 2026-01-03 00:00:00
-    // This successfully excludes "today" and "previous" dates.
     const startDate = moment(referenceDate)
       .add(1, 'days')
       .startOf('day')
