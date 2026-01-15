@@ -27,7 +27,7 @@ const InvoiceSchema = new Schema({
   email: { type: String },
   website: { type: String },
   deliveryType: { type: String },
-  linked: { type: Boolean }, 
+  linked: { type: String }, 
   type: { type: String },
   name: { type: String },
   address: { type: String },

@@ -19,7 +19,6 @@ const PayrollSchema = new Schema({
   },
   paymentMethod: {
     type: String,
-    
   },
 });
 
@@ -44,7 +43,7 @@ const AddressSchema = new Schema({
   city: { type: String },
   state: { type: String },
   postCode: { type: String },
-  country: { type: String }
+  country: { type: String },
 });
 
 const BeneficiarySchema = new Schema({
@@ -55,84 +54,69 @@ const BeneficiarySchema = new Schema({
   sameAddress: { type: Boolean, default: false },
   address: {
     type: AddressSchema,
-    
-  }
+  },
 });
 
-
 // Emergency Contact Schema
-const EmergencyContactSchema = new Schema(
-  {
-    emergencyContactName: { type: String },
-    relationship: { type: String },
-    address: { type: String },
-    cityOrTown: { type: String },
-    country: { type: String },
-    postCode: { type: String },
-    note: { type: String },
-    phone: { type: String },
-    mobile: { type: String },
-    email: { type: String },
-    emailRota: { type: Boolean, default: false },
-    sendInvoice: { type: Boolean, default: false },
-  }
-);
+const EmergencyContactSchema = new Schema({
+  emergencyContactName: { type: String },
+  relationship: { type: String },
+  address: { type: String },
+  cityOrTown: { type: String },
+  country: { type: String },
+  postCode: { type: String },
+  note: { type: String },
+  phone: { type: String },
+  mobile: { type: String },
+  email: { type: String },
+  emailRota: { type: Boolean, default: false },
+  sendInvoice: { type: Boolean, default: false },
+});
 
 // Critical Info Schema
-const CriticalInfoSchema = new Schema(
-  {
-    date: { type: Date },
-    type: { type: String }, // can be dropdown later
-    details: { type: String },
-  }
-);
+const CriticalInfoSchema = new Schema({
+  date: { type: Date },
+  type: { type: String }, // can be dropdown later
+  details: { type: String },
+});
 
 // Primary Branch Schema
-const PrimaryBranchSchema = new Schema(
-  {
-    fromDate: { type: Date },
-    branch: { type: String },
-    area: { type: String },
-    note: { type: String },
-  }
-);
+const PrimaryBranchSchema = new Schema({
+  fromDate: { type: Date },
+  branch: { type: String },
+  area: { type: String },
+  note: { type: String },
+});
 
 // Notes Schema
-const NotesSchema = new Schema(
-  {
-    date: { type: Date },
-    type: { type: String },
-    note: { type: String },
-  }
-  
-);
+const NotesSchema = new Schema({
+  date: { type: Date },
+  type: { type: String },
+  note: { type: String },
+});
 
-const trainingSchema = new Schema(
-  {
-    trainingId: {
-      type: Schema.Types.ObjectId,
-      ref: "Training",
-      required: true,
-    },
-    status: {
-      type: String,
-    },
-    assignedDate: {
-      type: Date,
-    },
-    expireDate: {
-      type: Date,
-     
-    },
-    completedAt:{
-      type: Date,
-    },
-    certificate:{
-      type: String,
-    }
-  }
- 
-);
+const trainingSchema = new Schema({
+  trainingId: {
+    type: Schema.Types.ObjectId,
+    ref: "Training",
+    required: true,
+  },
+  status: {
+    type: String,
+  },
+  assignedDate: {
+    type: Date,
+  },
+  expireDate: {
+    type: Date,
+  },
+  completedAt: {
+    type: Date,
+  },
+  certificate: {
+    type: String,
+  },
+});
 
 const userSchema = new Schema<TUser, UserModel>(
   {
@@ -205,6 +189,7 @@ const userSchema = new Schema<TUser, UserModel>(
     timesheetSignatureNote: { type: String },
 
     // Employee model fields
+    contractHours:{type:Number},
     nationalInsuranceNumber: { type: String },
     nhsNumber: { type: String },
     applicationDate: { type: Date },
@@ -238,9 +223,48 @@ const userSchema = new Schema<TUser, UserModel>(
     payroll: { type: PayrollSchema },
 
     // Embedded Arrays
-    emergencyContacts: [EmergencyContactSchema],
-    criticalInfo: [CriticalInfoSchema],
-    primaryBranch: [PrimaryBranchSchema],
+    emergencyContacts: {
+      type: [EmergencyContactSchema],
+      default: () => [
+        {
+          emergencyContactName: undefined,
+          relationship: undefined,
+          address: undefined,
+          cityOrTown: undefined,
+          country: undefined,
+          postCode: undefined,
+          note: undefined,
+          phone: undefined,
+          mobile: undefined,
+          email: undefined,
+          emailRota: false,
+          sendInvoice: false,
+        },
+      ],
+    },
+
+    criticalInfo: {
+      type: [CriticalInfoSchema],
+      default: () => [
+        {
+          date: undefined,
+          type: undefined,
+          details: undefined,
+        },
+      ],
+    },
+
+    primaryBranch: {
+      type: [PrimaryBranchSchema],
+      default: () => [
+        {
+          fromDate: undefined,
+          branch: undefined,
+          area: undefined,
+          note: undefined,
+        },
+      ],
+    },
     notes: [NotesSchema],
 
     // Misc
