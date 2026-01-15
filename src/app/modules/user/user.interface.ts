@@ -94,7 +94,7 @@ export interface TUser {
   middleInitial?: string;
   initial:string;
   mobilePhone:string;
-  contractHours:string;
+  contractHours:number;
   otherPhone:string;
   source: string;
   lastName?: string;
@@ -139,6 +139,7 @@ export interface TUser {
   servicePriority?: string;
   serviceLocationExId?: string;
   statusLabel?: string;
+  
 
   // Payroll & finance
   accountNo?: string;

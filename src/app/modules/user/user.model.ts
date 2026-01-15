@@ -279,7 +279,7 @@ const userSchema = new Schema<TUser, UserModel>(
 
 // Middleware to hash the password before saving
 userSchema.pre("save", async function (next) {
-  const user = this; // doc
+  const user = this as any; // doc
   if (user.isModified("password")) {
     user.password = await bcrypt.hash(
       user.password,
@@ -291,7 +291,7 @@ userSchema.pre("save", async function (next) {
 
 // set '' after saving password
 userSchema.post("save", function (doc, next) {
-  doc.password = "";
+  (doc as any).password = "";
   next();
 });
 
