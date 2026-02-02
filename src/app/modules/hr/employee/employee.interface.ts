@@ -32,6 +32,7 @@ export interface TEmployee {
   disabilityDetails?: string;
   needsReasonableAdjustment: boolean;
   reasonableAdjustmentDetails?: string;
+  company?:any;
   status:
     | "applied"
     | "shortlisted"

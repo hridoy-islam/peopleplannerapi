@@ -5,4 +5,5 @@ export interface TBankHoliday {
   title: string;
   date: Date; 
   year: number;
+  companyId:any;
 }

@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, Types, model } from "mongoose";
 import { TShift } from "./shift.interface";
 
 const shiftSchema = new Schema<TShift>(
@@ -15,6 +15,8 @@ const shiftSchema = new Schema<TShift>(
       type: String,
       required: true,
     },
+        companyId: { type: Types.ObjectId, ref: "User" },
+    
   }
 );
 

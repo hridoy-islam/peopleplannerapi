@@ -4,6 +4,7 @@ export interface TEmployeeRate {
   
   shiftId: Types.ObjectId[];
   employeeId: Types.ObjectId;
-  rates:any
+  rates:any;
+  companyId: any;
 
 }

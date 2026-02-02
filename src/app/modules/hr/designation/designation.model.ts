@@ -1,4 +1,4 @@
-import mongoose, { model, Schema } from "mongoose";
+import mongoose, { model, Schema, Types } from "mongoose";
 
 import { string } from "zod";
 import { TDesignation } from "./designation.interface";
@@ -12,6 +12,8 @@ const designationSchema = new Schema<TDesignation>(
     description: {
       type: String,
     },
+    companyId: { type: Types.ObjectId, ref: "User" },
+
     permissions: {
       type: Map,
       of: new mongoose.Schema({

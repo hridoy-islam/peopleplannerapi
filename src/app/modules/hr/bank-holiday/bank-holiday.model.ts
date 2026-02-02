@@ -1,4 +1,4 @@
-import mongoose, { model, Schema } from "mongoose";
+import mongoose, { model, Schema, Types } from "mongoose";
 
 import { string } from "zod";
 import { TBankHoliday } from "./bank-holiday.interface";
@@ -10,6 +10,8 @@ const BankHolidaySchema = new Schema<TBankHoliday>({
   date: {
     type: Date,
   },
+ companyId: { type: Types.ObjectId, ref: "User" },
+
   year: {
     type: Number,
   },

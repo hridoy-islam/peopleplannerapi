@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, Types, model } from "mongoose";
 import { TEmployeeRate } from "./employeeRate.interface";
 
 const RateSchema = new Schema(
@@ -10,7 +10,7 @@ const RateSchema = new Schema(
       default: 0,
     },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const daysOfWeek = [
@@ -25,11 +25,15 @@ const daysOfWeek = [
 
 const EmployeeRateSchema = new Schema<TEmployeeRate>(
   {
-    shiftId: [{
-      type: Schema.Types.ObjectId,
-      required: true,
-      ref: "Shift",
-    }],
+    shiftId: [
+      {
+        type: Schema.Types.ObjectId,
+        required: true,
+        ref: "Shift",
+      },
+    ],
+        companyId: { type: Types.ObjectId, ref: "User" },
+
     employeeId: {
       type: Schema.Types.ObjectId,
       required: true,
@@ -43,7 +47,7 @@ const EmployeeRateSchema = new Schema<TEmployeeRate>(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 EmployeeRateSchema.pre("validate", function (next) {
@@ -56,4 +60,7 @@ EmployeeRateSchema.pre("validate", function (next) {
   next();
 });
 
-export const EmployeeRate = model<TEmployeeRate>("EmployeeRate", EmployeeRateSchema);
+export const EmployeeRate = model<TEmployeeRate>(
+  "EmployeeRate",
+  EmployeeRateSchema,
+);

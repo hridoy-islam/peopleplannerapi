@@ -43,6 +43,7 @@ const checkLogin = async (payload: TLogin) => {
       lastName: foundUser?.lastName,
       role: foundUser?.role,
       authorized: foundUser?.authorized,
+      companyId:foundUser?.companyId
     };
 
     const accessToken = createToken(

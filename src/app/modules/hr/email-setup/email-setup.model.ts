@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 import bcrypt from "bcrypt";
-import { Schema, model } from "mongoose";
+import { Schema, Types, model } from "mongoose";
 
 import { TEmail } from "./email-setup.interface";
 
@@ -31,6 +31,8 @@ const EmailSchema = new Schema<TEmail>(
       type: Boolean,
       required: true,
     },
+            companyId: { type: Types.ObjectId, ref: "User" },
+
   },
   {
     timestamps: true,

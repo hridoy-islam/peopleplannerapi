@@ -126,16 +126,16 @@ const userSchema = new Schema<TUser, UserModel>(
     password: { type: String, required: true, select: 0 },
     role: {
       type: String,
-      enum: ["user", "admin", "serviceUser", "staff"],
-      default: "user",
+      enum: ["company", "admin", "serviceUser", "staff"],
+      default: "company",
     },
     image: { type: String },
     status: { type: String, enum: UserStatus, default: "active" },
     isDeleted: { type: Boolean, default: false },
     authorized: { type: Boolean, default: false },
-
+   
     // Relations
-    company: { type: Schema.Types.ObjectId, ref: "User" },
+    companyId: { type: Schema.Types.ObjectId, ref: "User" },
     colleagues: [{ type: Schema.Types.ObjectId, ref: "User" }],
 
     // Auth
@@ -147,7 +147,7 @@ const userSchema = new Schema<TUser, UserModel>(
     // Finance
     accountNo: { type: String },
     sortCode: { type: String },
-    beneficiary: { type: BeneficiarySchema },
+    beneficiary: { type: String },
     detailedBeneficiary: { type: BeneficiarySchema },
 
     // Service-user specific
@@ -178,6 +178,7 @@ const userSchema = new Schema<TUser, UserModel>(
     otherPhone: { type: String },
     homePhone: { type: String },
     website: { type: String },
+    themeColor:{type:String, default:'#6651c2'},
 
     // Employment / Service Details
     startDate: { type: Date },

@@ -9,5 +9,6 @@ export interface TEmail {
   host: string;
   port: number;
   encryption: string;
-  authentication: boolean
+  authentication: boolean,
+  companyId:any
 }

@@ -26,6 +26,11 @@ router.post(
 //   auth("admin", "user", "director", "company", "creator"),
 ScheduleControllers.createSchedule
 );
+router.post(
+  "/bulk-schedule",
+//   auth("admin", "user", "director", "company", "creator"),
+ScheduleControllers.createBulkSchedule
+);
 
 router.patch(
   "/:id",

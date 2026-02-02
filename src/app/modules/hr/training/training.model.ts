@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import { model, Schema, Types } from "mongoose";
 
 import { string } from "zod";
 
@@ -23,10 +23,11 @@ const trainingSchema = new Schema<TrainingModule>(
     reminderBeforeDays: {
       type: Number,
     },
+    companyId: { type: Types.ObjectId, ref: "User" },
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 export const Training = model<TrainingModule>("Training", trainingSchema);

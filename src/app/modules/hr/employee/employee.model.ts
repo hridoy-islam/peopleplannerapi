@@ -113,10 +113,10 @@ const userSchema = new Schema<TUser, UserModel, TEmployee>(
       enum: ["active","block"],
       default: "active",
     },
-    company: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
+    // company: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: "User",
+    // },
     colleagues: [
       {
         type: Schema.Types.ObjectId,

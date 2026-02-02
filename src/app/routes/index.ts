@@ -4,7 +4,6 @@ import { AuthRoutes } from "../modules/auth/auth.router";
 import { NoticeRoutes } from "../modules/hr/notice/notice.router";
 import { DepartmentRoutes } from "../modules/hr/department/department.router";
 import { EmailRoutes } from "../modules/hr/email-setup/email-setup.router";
-import { AttendanceRoutes } from "../modules/hr/attendance/attendance.router";
 import { VacancyRoutes } from "../modules/hr/vacancy/vacancy.router";
 import { ApplicantRoutes } from "../modules/hr/applicant/applicant.router";
 import { RecruitmentRoutes } from "../modules/hr/recruitment/recruitment.router";
@@ -18,8 +17,6 @@ import { LeaveRoutes } from "../modules/hr/leave/leave.router";
 import { BankHolidayRoutes } from "../modules/hr/bank-holiday/bank-holiday.router";
 import { PendingHiringRoutes } from "../modules/hr/pending-hiring/pendingHiring.router";
 import { RightToWorkRoutes } from "../modules/hr/rightToWork/rightToWork.router";
-import { PayrollRoutes } from "../modules/hr/payroll/payroll.router";
-import { InvoiceRoutes } from "../modules/hr/invoice/invoice.router";
 import { ReportRoutes } from "../modules/hr/report/report.router";
 import { DeviceRoutes } from "../modules/hr/devices/device.router";
 import { RequestDocumentRoutes } from "../modules/hr/request-document/requestDocument.router";
@@ -31,6 +28,15 @@ import { ContingencyPlanRoutes } from "../modules/contingencyPlan/contingencyPla
 import { ServiceUserDocumentRoutes } from "../modules/serviceUserDocuments/serviceUserDocument.router";
 import { StatementRoutes } from "../modules/statements/statement.router";
 import { ConsentFormRoutes } from "../modules/consentForm/consentForm.router";
+import { SubscriptionPlanRoutes } from "../modules/subscriptionPlan/subscriptionPlan.router";
+import { CompanyReportRoutes } from "../modules/companyReport/companyReport.router";
+import { AttendanceRoutes } from "../modules/attendance/attendance.router";
+import { CSVRouter } from "../modules/csv/csv.route";
+import { VisitTypeRoutes } from "../modules/visitType/visitType.router";
+import { ServiceUserScheduleRoutes } from "../modules/serviceUserSchedule/serviceUserSchedule.router";
+import { ServiceTypeRoutes } from "../modules/serviceType/serviceType.router";
+import { PayslipRoutes } from "../modules/payslip/payslip.router";
+import { InvoiceRoutes } from "../modules/invoice/invoice.router";
 const router = Router();
 
 const moduleRoutes = [
@@ -116,8 +122,8 @@ const moduleRoutes = [
     route: ScheduleRoutes,
   },
   {
-    path: "/payrolls",
-    route: PayrollRoutes,
+    path: "/payslips",
+    route: PayslipRoutes,
   },
   {
     path: "/invoices",
@@ -163,6 +169,31 @@ const moduleRoutes = [
   {
     path: "/consent-form",
     route: ConsentFormRoutes,
+  },
+  {
+    path: "/subscription-plans",
+    route: SubscriptionPlanRoutes,
+  },
+  {
+    path: "/company-report",
+    route: CompanyReportRoutes,
+  },
+   {
+    path: "/csv",
+    route: CSVRouter,
+  },
+   {
+    path: "/visit-type",
+    route: VisitTypeRoutes,
+  },
+
+   {
+    path: "/service-Type",
+    route: ServiceTypeRoutes,
+  },
+   {
+    path: "/serviceuser-schedule",
+    route: ServiceUserScheduleRoutes,
   },
 ];
 

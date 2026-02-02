@@ -1,7 +1,6 @@
 import { Schema, model, Types } from "mongoose";
 import { TFunder } from "./funder.interface";
 
-
 const TravelDetailSchema = new Schema({
   fromDate: { type: String },
   distance: { type: String },
@@ -27,7 +26,7 @@ const InvoiceSchema = new Schema({
   email: { type: String },
   website: { type: String },
   deliveryType: { type: String },
-  linked: { type: String }, 
+  linked: { type: String },
   type: { type: String },
   name: { type: String },
   address: { type: String },
@@ -44,6 +43,8 @@ const FunderSchema = new Schema(
   {
     // Personal Information
     serviceUser: { type: Types.ObjectId, ref: "User" },
+    companyId: { type: Types.ObjectId, ref: "User" },
+
     type: { type: String },
     title: { type: String },
     image: { type: Schema.Types.Mixed },
@@ -85,7 +86,7 @@ const FunderSchema = new Schema(
     // Adhoc Invoice
     adhocInvoice: [AdhocInvoiceSchema],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export const Funder = model<TFunder>("Funder", FunderSchema);

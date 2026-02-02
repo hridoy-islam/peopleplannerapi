@@ -66,6 +66,16 @@ const createSchedule = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const createBulkSchedule = catchAsync(async (req, res) => {
+  
+  const result = await ScheduleServices.createBulkScheduleIntoDB( req.body);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Schedule Created succesfully",
+    data: result,
+  });
+});
 
 
 
@@ -75,6 +85,7 @@ export const ScheduleControllers = {
     updateSchedule,
     createSchedule,
     deleteSingleSchedule,
-    getAllUpcomingSchedule
+    getAllUpcomingSchedule,
+    createBulkSchedule
 };
 

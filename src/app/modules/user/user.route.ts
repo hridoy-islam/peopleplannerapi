@@ -13,13 +13,13 @@ router.get(
 );
 router.get(
   "/:id",
-  auth("admin", "user", "director","staff","serviceUser"  ),
+  auth("admin", "user", "director","staff","serviceUser","company"  ),
   UserControllers.getSingleUser
 );
 
 router.patch(
   "/:id",
-  auth("admin", "user", "director","staff","serviceUser"),
+  auth("admin", "user", "director","staff","serviceUser","company"  ),
   UserControllers.updateUser
 );
 
@@ -28,7 +28,7 @@ router.patch('/addmember/:id/', auth('admin','director'),UserControllers.assignU
 
 router.get(
   "/company/:userId",
-  auth("admin","user", "director"),
+  auth("admin", "user", "director","staff","serviceUser","company"  ),
   UserControllers.getCompanyUser
 );
 

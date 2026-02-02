@@ -7,5 +7,6 @@ export interface TrainingModule {
     isRecurring: boolean;
     validityDays?: number;        // How long it stays valid
     reminderBeforeDays?: number; // When to remind before expiry
-    
+      companyId: any;
+
   }

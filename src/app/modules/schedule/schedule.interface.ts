@@ -31,7 +31,8 @@ interface Break {
 // Main form data interface
 export interface TSchedule {
   // Date & Time (General Info)
-  date: Date;
+  startDate: string;
+  endDate: string;
   startTime: string;
   endTime: string;
   timeInMinutes: number;
@@ -42,17 +43,20 @@ export interface TSchedule {
   area: string;
   serviceUser: Types.ObjectId;
   serviceFunder: Types.ObjectId;
+  companyId: any;
 
   // Employee
   employeeBranch: string;
   employeeArea: string;
   employee: Types.ObjectId;
+  employeeShiftId: Types.ObjectId;
+  employeeRateId: Types.ObjectId;
 
   // Service & Rates
-  serviceType: string;
-  visitType: string;
-  payRate: string;
-  invoiceRate: string;
+  serviceType:  Types.ObjectId;
+  visitType:  Types.ObjectId;
+  payRate: Number;
+  invoiceRate: Number;
 
   // Summary
   cancellation: string;
@@ -87,4 +91,6 @@ export interface TSchedule {
 
   // Purchase Order
   purchaseOrder: boolean;
+  completeSchedule: boolean;
+  isDuplicate?: boolean;
 }

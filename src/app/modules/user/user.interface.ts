@@ -147,9 +147,9 @@ export interface TUser {
   beneficiary?: string;
   payroll?: Payroll;
   detailedBeneficiary?: BeneficiaryDetails;
-
+  themeColor:string;
   // Company & relations
-  company?: Types.ObjectId;
+  companyId?: Types.ObjectId;
   colleagues?: Types.ObjectId[];
   departmentId?: Types.ObjectId;
   training?: any[];
